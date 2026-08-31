@@ -4,40 +4,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keyboard Event Explorer</title>
   <link rel="stylesheet" href="style.css" />
-  <title>Event KeyCodes</title>
-  <link rel="stylesheet" type="text/css" href="../styles.css" />
-  <style>
-    table,
-    th,
-    td {
-      border: 1px solid #e7e7e7;
-    }
-
-    .project {
-      background-color: #1c1c1c;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      height: 100vh;
-    }
-
-    .color {
-      color: aliceblue;
-      display: flex;
-      flex-direction: row;
-    }
-  </style>
 </head>
 
 <body>
-  <div class="project">
-    <div id="insert">
-      <div class="key">Press the key and watch magic</div>
+  <a class="back-link" href="../index.html">← Back</a>
+
+  <main class="stage">
+    <h1>Keyboard Explorer</h1>
+    <p class="hint">Press any key — see it light up and inspect the event.</p>
+
+    <div class="info" id="info">
+      <div class="info-card"><span id="v-key">—</span><label>key</label></div>
+      <div class="info-card"><span id="v-code">—</span><label>code</label></div>
+      <div class="info-card"><span id="v-which">—</span><label>keyCode</label></div>
+      <div class="info-card"><span id="v-loc">—</span><label>location</label></div>
     </div>
-  </div>
+
+    <div class="keyboard" id="keyboard"></div>
+
+    <div class="history-wrap">
+      <span class="h-label">Recent keys</span>
+      <div class="history" id="history"></div>
+    </div>
+  </main>
 
   <script src="project5.js"></script>
 </body>

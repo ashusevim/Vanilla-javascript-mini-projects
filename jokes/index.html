@@ -1,18 +1,28 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chunk Norris</title>
+  <title>Random Jokes</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <section class="container">
-    <div id="display-joke">Click the button to get a new joke</div>
-    <button class="btn" id="getJoke">Get Joke</button>
-  </section>
+  <a class="back-link" href="../index.html">← Back</a>
+
+  <main class="card">
+    <div class="mask">😂</div>
+    <div class="joke">
+      <p class="setup" id="setup">Ready for a laugh?</p>
+      <p class="punch" id="punch"></p>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="get">Get a joke</button>
+      <button class="btn ghost" id="copy" hidden>Copy</button>
+    </div>
+  </main>
 
   <script src="project13.js"></script>
 </body>

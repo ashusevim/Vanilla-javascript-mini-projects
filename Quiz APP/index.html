@@ -4,30 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz app</title>
+    <title>Quiz App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="box">
-            <h2>Simple Quiz</h2>
-            <hr>
+    <a class="back-link" href="../index.html">← Back</a>
 
-            <div class="qna">
-                <div class="question">
-                    <p>Question</p>
-                </div>
-                <div class="op">
-                    <button class="btn btn-1">Answer 1</button>
-                    <button class="btn btn-2">Answer 2</button>
-                    <button class="btn btn-3">Answer 3</button>
-                    <button class="btn btn-4">Answer 4</button>
-                </div>
+    <div class="box">
+        <header class="q-head">
+            <h2>Quick Quiz</h2>
+            <div class="meta">
+                <span id="counter">1 / 5</span>
+                <span class="timer" id="timer">15</span>
             </div>
+        </header>
 
-            <button id="next-btn">Next</button>
+        <div class="progress"><div class="progress-bar" id="progress"></div></div>
+
+        <div class="stage" id="stage">
+            <p class="question" id="question">Question</p>
+            <div class="options" id="options"></div>
         </div>
+
+        <button id="next-btn" type="button">Next</button>
     </div>
 
     <script src="index.js"></script>

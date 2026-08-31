@@ -1,29 +1,42 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Text Formatter</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <div class="container">
-    <div class="input-container">
-      <h2>Type In Your Words</h2>
-      <input type="text" id="input-field" placeholder="Type Your Text Here" />
+  <a class="back-link" href="../index.html">← Back</a>
+
+  <main class="editor">
+    <h2>Text Formatter</h2>
+
+    <textarea id="input" placeholder="Type or paste your text…" rows="4"></textarea>
+
+    <div class="toolbar" id="toolbar">
+      <div class="group">
+        <button class="tool" data-case="upper" title="UPPERCASE">AA</button>
+        <button class="tool" data-case="lower" title="lowercase">aa</button>
+        <button class="tool" data-case="title" title="Title Case">Aa</button>
+      </div>
+      <div class="group">
+        <button class="tool" data-style="bold" title="Bold"><b>B</b></button>
+        <button class="tool" data-style="italic" title="Italic"><i>I</i></button>
+        <button class="tool" data-style="underline" title="Underline"><u>U</u></button>
+        <button class="tool" data-style="strike" title="Strikethrough"><s>S</s></button>
+      </div>
     </div>
 
-    <div class="btns-container">
-      <button class="btn uppercase">ABC</button>
-      <button class="btn lowercase">abc</button>
-      <button class="btn capitalize">Abc</button>
-      <button class="btn bold">B</button>
-      <button class="btn italic">/</button>
-      <button class="btn underline">ABC</button>
-    </div>
+    <div class="output" id="output">Your formatted text appears here…</div>
 
-    <p id="output-field">Output</p>
-  </div>
+    <footer class="bar">
+      <span class="stats"><span id="chars">0</span> chars · <span id="words">0</span> words</span>
+      <button class="copy" id="copy">Copy</button>
+    </footer>
+  </main>
 
   <script src="project11.js"></script>
 </body>

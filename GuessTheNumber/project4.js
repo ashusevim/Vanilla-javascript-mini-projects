@@ -1,93 +1,131 @@
-let randomNumber = parseInt(Math.random() * 100 + 1);
-const submit = document.querySelector("#subt");
-const userInput = document.querySelector("#guessField");
-let previousGuesses = document.querySelector(".guesses");
-const remainingGuesses = document.querySelector(".lastResult");
-const lowOrHi = document.querySelector(".lowOrHi");
-const resultParas = document.querySelector(".resultParas");
+const MAX_GUESSES = 10;
 
-let previousGuess = [];
-let playGame = true;
-let numOfGuesses = 1;
+const form = document.getElementById('form');
+const input = document.getElementById('guessField');
+const submitBtn = document.getElementById('subt');
+const feedback = document.getElementById('feedback');
+const thermo = document.getElementById('thermo');
+const attemptsEl = document.getElementById('attempts');
+const remainingEl = document.getElementById('remaining');
+const history = document.getElementById('history');
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
 
-const p = document.createElement("p");
+let target, guessCount, playing;
 
-if (playGame) {
-  submit.addEventListener("click", function (event) {
-    event.preventDefault();
-    const guess = parseInt(userInput.value);
-    console.log(guess);
-    validateGuess(guess);
-  });
+function start() {
+  target = Math.floor(Math.random() * 100) + 1;
+  guessCount = 0;
+  playing = true;
+  attemptsEl.textContent = '0';
+  remainingEl.textContent = MAX_GUESSES;
+  history.innerHTML = '';
+  feedback.textContent = 'Take a guess…';
+  feedback.className = 'feedback';
+  thermo.style.width = '0%';
+  thermo.style.background = '#334155';
+  input.value = '';
+  input.disabled = false;
+  submitBtn.textContent = 'Guess';
+  input.focus();
 }
 
-function validateGuess(guess) {
-  if (isNaN(guess)) {
-    alert("Please enter a number");
-  } else if (guess < 1) {
-    alert("Please enter a number greater than 1");
-  } else if (guess > 100) {
-    alert("please enter a number less than 100");
-  } else {
-    previousGuess.push(guess);
-    if (numOfGuesses > 10) {
-      displayGuess(guess);
-      displayMessage(`Game Over. Random number was ${randomNumber}`);
-      endGame();
-    } else {
-      displayGuess(guess);
-      checkGuess(guess);
-    }
+function proximity(guess) {
+  const diff = Math.abs(guess - target);
+  if (diff === 0) return { pct: 100, color: '#67e0a3', word: '' };
+  if (diff <= 3) return { pct: 92, color: '#ff4d4d', word: '🔥 Boiling!' };
+  if (diff <= 8) return { pct: 74, color: '#ff8c42', word: '♨️ Very hot' };
+  if (diff <= 15) return { pct: 55, color: '#ffd166', word: '🌤️ Warm' };
+  if (diff <= 30) return { pct: 36, color: '#4dabf7', word: '❄️ Cold' };
+  return { pct: 18, color: '#4263eb', word: '🧊 Freezing' };
+}
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!playing) { start(); return; }
+
+  const guess = Number(input.value);
+  if (input.value.trim() === '' || Number.isNaN(guess) || guess < 1 || guess > 100) {
+    feedback.textContent = 'Enter a number from 1 to 100.';
+    feedback.className = 'feedback warn';
+    return;
   }
-}
 
-function checkGuess(guess) {
-  if (guess === randomNumber) {
-    displayMessage("You guessed it right ");
+  guessCount++;
+  attemptsEl.textContent = guessCount;
+  remainingEl.textContent = MAX_GUESSES - guessCount;
+
+  const prox = proximity(guess);
+  thermo.style.width = prox.pct + '%';
+  thermo.style.background = prox.color;
+
+  const chip = document.createElement('span');
+  chip.className = 'chip';
+  chip.textContent = guess;
+  chip.style.borderColor = prox.color;
+  history.appendChild(chip);
+
+  input.value = '';
+
+  if (guess === target) {
+    feedback.textContent = `🎉 Got it in ${guessCount}!`;
+    feedback.className = 'feedback win';
+    burstConfetti();
     endGame();
-  } else if (guess > randomNumber) {
-    displayMessage("Your guessed number is very high!!");
-  } else if (guess < randomNumber) {
-    displayMessage("Your guessed number is too low!!");
+  } else if (guessCount >= MAX_GUESSES) {
+    feedback.textContent = `Out of guesses — it was ${target}.`;
+    feedback.className = 'feedback lose';
+    endGame();
+  } else {
+    const dir = guess > target ? 'Too high' : 'Too low';
+    feedback.textContent = `${prox.word} · ${dir} ${guess > target ? '⬇️' : '⬆️'}`;
+    feedback.className = 'feedback';
   }
-}
-
-function displayGuess(guess) {
-  //it will refresh input box, update previous guesses and remaining guesses
-  userInput.value = "";
-  previousGuesses.innerHTML += `${guess}, `;
-  numOfGuesses++;
-  remainingGuesses.innerHTML = `${11 - numOfGuesses}`;
-}
-
-function displayMessage(message) {
-  // pass the message to lowOrHi query selector and print as it is.
-  lowOrHi.innerHTML = `<h1>${message}</h1>`;
-}
-
-console.log("Just random text");
+});
 
 function endGame() {
-  //to end the game
-  userInput.value = "";
-  userInput.setAttribute("disabled", "");
-  p.classList.add("button");
-  p.innerHTML = `<h2 id="newGame">Starting new Game</h2>`;
-  resultParas.appendChild(p);
-  playGame = false;
-  newGame();
+  playing = false;
+  input.disabled = true;
+  submitBtn.textContent = 'Play again';
 }
 
-function newGame() {
-  const buttonForNewGame = document.querySelector("#newGame");
-  buttonForNewGame.addEventListener("click", function (event) {
-    randomNumber = parseInt(Math.random() * 100 + 1);
-    previousGuess = [];
-    numOfGuesses = 1;
-    previousGuesses = "";
-    remainingGuesses.innerHTML = `${11 - numOfGuesses}`;
-    userInput.removeAttribute("disabled");
-    resultParas.removeChild(p);
-    playGame = true;
-  });
+/* ---- Confetti ---- */
+let pieces = [];
+function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+resize();
+addEventListener('resize', resize);
+
+function burstConfetti() {
+  const colors = ['#7c5cff', '#ff5c9d', '#24d3ee', '#67e0a3', '#ffd166'];
+  for (let i = 0; i < 140; i++) {
+    pieces.push({
+      x: innerWidth / 2, y: innerHeight / 3,
+      vx: (Math.random() - 0.5) * 12,
+      vy: Math.random() * -12 - 4,
+      size: Math.random() * 8 + 4,
+      color: colors[(Math.random() * colors.length) | 0],
+      rot: Math.random() * 360, vr: (Math.random() - 0.5) * 20,
+      life: 1,
+    });
+  }
+  if (pieces.length <= 140) requestAnimationFrame(drawConfetti);
 }
+
+function drawConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  pieces.forEach((p) => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.35; p.rot += p.vr; p.life -= 0.008;
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, p.life);
+    ctx.translate(p.x, p.y);
+    ctx.rotate((p.rot * Math.PI) / 180);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+    ctx.restore();
+  });
+  pieces = pieces.filter((p) => p.life > 0 && p.y < canvas.height + 50);
+  if (pieces.length) requestAnimationFrame(drawConfetti);
+  else ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+start();

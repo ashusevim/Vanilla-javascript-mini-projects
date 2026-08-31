@@ -1,15 +1,29 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Random Image Feed</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <h1>Random Image Feed</h1>
-  <div class="content"></div>
+  <a class="back-link" href="../index.html">← Back</a>
+
+  <header class="head">
+    <h1>🖼️ Random Image Feed</h1>
+    <button class="btn" id="shuffle">Shuffle feed</button>
+  </header>
+
+  <main class="masonry" id="masonry"></main>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="close" id="close" aria-label="Close">✕</button>
+    <img id="lightbox-img" alt="Enlarged view" />
+    <a class="download" id="download" download="image.jpg">⬇ Download</a>
+  </div>
+
   <script src="project12.js"></script>
 </body>
 

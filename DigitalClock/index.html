@@ -4,38 +4,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" type="text/css" href="../styles.css" />
   <title>Your Local Time</title>
-  <style>
-    body {
-      background-color: #212121;
-      color: #fff;
-    }
-
-    .center {
-      display: flex;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    #clock {
-      font-size: 40px;
-      background-color: orange;
-      padding: 20px 50px;
-      margin-top: 10px;
-      border-radius: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <div class="center">
-    <div id="banner"><span>Your local time</span></div>
-    <div id="clock"></div>
-  </div>
+  <a class="back-link" href="../index.html">← Back</a>
+
+  <main class="clock-stage">
+    <p class="greeting" id="greeting"></p>
+
+    <div class="analog" aria-hidden="true">
+      <div class="dial">
+        <span class="tick" style="--i:0"></span>
+        <span class="tick" style="--i:1"></span>
+        <span class="tick" style="--i:2"></span>
+        <span class="tick" style="--i:3"></span>
+        <span class="tick" style="--i:4"></span>
+        <span class="tick" style="--i:5"></span>
+        <span class="tick" style="--i:6"></span>
+        <span class="tick" style="--i:7"></span>
+        <span class="tick" style="--i:8"></span>
+        <span class="tick" style="--i:9"></span>
+        <span class="tick" style="--i:10"></span>
+        <span class="tick" style="--i:11"></span>
+      </div>
+      <div class="hand hour" id="hour"></div>
+      <div class="hand minute" id="minute"></div>
+      <div class="hand second" id="second"></div>
+      <div class="center-dot"></div>
+    </div>
+
+    <div class="digital" id="clock" aria-live="off">00:00:00</div>
+    <div class="date" id="date"></div>
+  </main>
+
   <script src="project3.js"></script>
 </body>
 

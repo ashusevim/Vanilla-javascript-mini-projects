@@ -4,15 +4,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Debounced User Search</title>
+  <title>Debounced Search</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <div class="container">
-    <input type="text" id="user-input" placeholder="Type and fetch API" />
-    <div id="user-card" class="user-card"></div>
+  <a class="back-link" href="../index.html">← Back</a>
+
+  <div class="wrap">
+    <h1>Debounce, visualized</h1>
+    <p class="lead">Type fast — see how many keystrokes fire vs. how few API calls actually run.</p>
+
+    <div class="input-shell">
+      <input type="text" id="user-input" placeholder="Type anything…" autocomplete="off" />
+      <div class="timer-bar"><div class="timer-fill" id="timer"></div></div>
+    </div>
+
+    <div class="counters">
+      <div class="counter"><span id="keys">0</span><label>Keystrokes</label></div>
+      <div class="counter accent"><span id="calls">0</span><label>API calls</label></div>
+      <div class="counter"><span id="saved">0%</span><label>Saved</label></div>
+    </div>
+
+    <div class="user-card" id="user-card"></div>
   </div>
+
   <script src="project16.js"></script>
 </body>
 

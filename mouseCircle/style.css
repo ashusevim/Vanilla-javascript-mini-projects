@@ -1,43 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display+SC:wght@700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  height: 100vh;
-  background: #000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
+  background: #06060c;
+  overflow: hidden;
+  cursor: none;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-.container {
-  text-align: center;
-  margin: 0 auto;
+.back-link {
+  position: fixed; top: 18px; left: 18px; z-index: 10;
+  color: #cbd5ff; text-decoration: none; font-weight: 600;
+  font-size: 0.9rem; padding: 6px 14px; border-radius: 999px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
 }
+.back-link:hover { background: rgba(255,255,255,0.18); }
 
-h1 {
-  color: #fff;
-  font-size: 2rem;
-  font-family: 'Playfair Display SC', serif;
-}
+#canvas { position: fixed; inset: 0; z-index: 1; }
 
-p {
-  color: #fff;
-  max-width: 700px;
-  font-family: sans-serif;
-  letter-spacing: 2px;
-  line-height: 22px;
-  margin-bottom: 40px;
-}
-
-/* JavaScript */
-div.cursor {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 25px;
-  height: 25px;
-  background: yellow;
+.cursor {
+  position: fixed; top: 0; left: 0; z-index: 3;
+  width: 40px; height: 40px;
+  border: 2px solid #fff;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: cursor 6s infinite alternate;
+  pointer-events: none;
+  transition: transform 0.05s linear, border-color 0.2s;
+  mix-blend-mode: difference;
+}
+
+.center {
+  position: relative; z-index: 2;
+  height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center;
+  color: #fff; pointer-events: none;
+}
+h1 { font-family: 'Playfair Display SC', serif; font-size: clamp(1.8rem, 6vw, 3rem); }
+.center p { color: #9aa3c7; margin-top: 10px; letter-spacing: 0.04em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor { transition: none; }
 }

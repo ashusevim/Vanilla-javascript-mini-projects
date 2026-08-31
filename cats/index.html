@@ -1,19 +1,25 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Random Cat Images</title>
+  <title>Random Cat Gallery</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <section class="header-content">
-    <button class="btn">Get Random Cat</button>
-  </section>
+  <a class="back-link" href="../index.html">← Back</a>
 
-  <div class="container"></div>
+  <header class="head">
+    <h1>🐱 Cat Gallery</h1>
+    <div class="controls">
+      <button class="btn" id="more">Fetch cats</button>
+      <button class="btn ghost" id="fav-toggle">★ Favorites (<span id="fav-count">0</span>)</button>
+    </div>
+  </header>
+
+  <main class="grid" id="grid"></main>
 
   <script src="project14.js"></script>
 </body>

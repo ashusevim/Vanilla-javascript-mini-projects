@@ -1,44 +1,165 @@
-html {
-  margin: 0;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  transition: background 0.5s ease, color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background: #f8fafc;
+  color: #111;
 }
 
-span {
-  display: block;
+.back-link {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.25);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10;
+  transition: background 0.2s;
 }
+.back-link:hover { background: rgba(0,0,0,0.45); }
 
-.canvas {
-  margin: 100px auto 100px;
-  width: 80%;
+.stage {
   text-align: center;
+  max-width: 560px;
+  width: 100%;
 }
 
-.button {
-  width: 100px;
-  height: 100px;
-  border: solid black 2px;
-  display: inline-block;
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
-#grey {
-  background: grey;
+.hint {
+  opacity: 0.7;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
 }
 
-#white {
-  background: white;
+/* Tabs */
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+  background: rgba(128,128,128,0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 28px;
 }
 
-#blue {
-  background: blue;
+.tab {
+  border: none;
+  background: none;
+  padding: 8px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: inherit;
+  transition: background 0.2s, color 0.2s;
+}
+.tab.is-active {
+  background: rgba(0,0,0,0.55);
+  color: #fff;
 }
 
-#yellow {
-  background: yellow;
+/* Swatches */
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 32px;
 }
 
-#black {
-  background: black;
+.swatch {
+  width: 72px;
+  height: 72px;
+  border: 3px solid rgba(255,255,255,0.35);
+  border-radius: 18px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  animation: pop 0.4s ease backwards;
+}
+.swatch:hover,
+.swatch:focus-visible {
+  transform: translateY(-5px) scale(1.08);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+  outline: none;
+}
+.swatch[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px currentColor, 0 10px 28px rgba(0,0,0,0.3);
 }
 
-#golden {
-  background: gold;
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Ripple */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  transform: scale(0);
+  animation: ripple-anim 0.5s ease-out;
+  pointer-events: none;
+}
+@keyframes ripple-anim {
+  to { transform: scale(2.5); opacity: 0; }
+}
+
+/* Code chip */
+.code-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  min-width: 200px;
+  justify-content: center;
+}
+.code-chip:hover { background: rgba(0,0,0,0.55); transform: scale(1.03); }
+.code-chip.copied { background: rgba(36,211,165,0.6); }
+.copy-hint {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
 }

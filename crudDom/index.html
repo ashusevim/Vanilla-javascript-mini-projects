@@ -1,40 +1,41 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BookList App</title>
+  <title>Book List — CRUD</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <a class="back-link" href="../index.html">← Back</a>
+
   <section class="container">
-    <form id="book-form">
-      <div>
-        <label for="title">Book Title</label>
-        <input type="text" id="title" />
-      </div>
-      <div>
-        <label for="author">Book Author</label>
-        <input type="text" id="author" />
-      </div>
-      <div>
-        <label for="year">Published Year</label>
-        <input type="number" id="year" />
-      </div>
-      <button type="submit" class="btn">Add Book</button>
+    <h1>📚 Book List</h1>
+
+    <form id="book-form" autocomplete="off">
+      <input type="text" id="title" placeholder="Title" />
+      <input type="text" id="author" placeholder="Author" />
+      <input type="number" id="year" placeholder="Year" />
+      <button type="submit" class="btn" id="submit-btn">Add Book</button>
+      <button type="button" class="btn cancel" id="cancel-btn" hidden>Cancel</button>
     </form>
 
-    <section class="table">
-      <section class="table-section">
-        <div>Title</div>
-        <div>Author</div>
-        <div>Year</div>
-      </section>
+    <div class="toolbar">
+      <input type="search" id="search" placeholder="🔍 Search books…" />
+      <span class="count" id="count">0 books</span>
+    </div>
 
-      <section id="book-list"></section>
-    </section>
+    <div class="table">
+      <div class="thead">
+        <button class="col" data-sort="title">Title</button>
+        <button class="col" data-sort="author">Author</button>
+        <button class="col" data-sort="year">Year</button>
+        <span class="col actions-col">Actions</span>
+      </div>
+      <div id="book-list"></div>
+    </div>
   </section>
 
   <script src="project15.js"></script>

@@ -1,73 +1,97 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background-color: #080809;
-  background: linear-gradient(rgb(55, 43, 226), rgb(82, 5, 154));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-family: sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  padding: 60px 16px 40px;
+  background: linear-gradient(160deg, #372be2, #52059a);
+  color: #fff;
 }
 
-.container {
-  width: 80%;
-  height: 600px;
-  padding: 20px;
-  color: white;
-  position: relative;
+.back-link {
+  position: fixed; top: 18px; left: 18px;
+  color: #fff; text-decoration: none; font-weight: 600;
+  font-size: 0.9rem; padding: 6px 14px; border-radius: 999px;
+  background: rgba(255,255,255,0.15);
 }
+.back-link:hover { background: rgba(255,255,255,0.28); }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 4px;
-  margin-bottom: 20px;
-  outline: none;
-  border: none;
-  border-radius: 5px;
+.container { max-width: 720px; margin: 0 auto; }
+h1 { text-align: center; font-size: 2rem; font-weight: 800; margin-bottom: 22px; }
+
+#book-form {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr auto auto;
+  gap: 8px;
+  margin-bottom: 16px;
 }
+#book-form input {
+  padding: 12px 14px; border: none; border-radius: 10px;
+  background: rgba(255,255,255,0.95); color: #222; font-size: 0.9rem; min-width: 0;
+}
+#book-form input:focus { outline: 2px solid #fff; }
+.btn {
+  border: none; border-radius: 10px; padding: 12px 18px;
+  background: #1a1a2e; color: #fff; font-weight: 700; cursor: pointer; white-space: nowrap;
+  transition: filter 0.15s, transform 0.1s;
+}
+.btn:hover { filter: brightness(1.3); }
+.btn:active { transform: scale(0.96); }
+.btn.cancel { background: rgba(255,255,255,0.2); }
+
+.toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+#search {
+  flex: 1; padding: 10px 16px; border: none; border-radius: 999px;
+  background: rgba(255,255,255,0.15); color: #fff; font-size: 0.9rem;
+}
+#search::placeholder { color: rgba(255,255,255,0.6); }
+#search:focus { outline: none; background: rgba(255,255,255,0.25); }
+.count { font-size: 0.85rem; opacity: 0.85; white-space: nowrap; }
 
 .table {
-  background: #252323;
-  width: 100%;
-}
-
-.table-section {
-  display: flex;
-  justify-content: space-around;
-  padding: 10px;
-}
-
-#book-list {
-  display: flex;
-  flex-direction: column;
-  list-style: none;
+  background: rgba(255,255,255,0.06);
+  border-radius: 14px;
   overflow: hidden;
-  word-wrap: break-word;
-  background: #fff;
-  color: #000;
+  border: 1px solid rgba(255,255,255,0.1);
 }
-
-#book-list>section {
-  display: flex;
+.thead, .row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 100px;
+  gap: 8px;
   align-items: center;
-  text-align: center;
-  justify-content: space-around;
-  border-bottom: 1px solid #ccc;
-  padding: 10px;
+  padding: 12px 16px;
 }
+.thead { background: rgba(0,0,0,0.25); }
+.col {
+  background: none; border: none; color: #dcd6ff; font-weight: 700;
+  text-align: left; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em;
+  cursor: pointer; padding: 0; font-family: inherit;
+}
+.col.actions-col { cursor: default; }
+.col.asc::after { content: ' ▲'; }
+.col.desc::after { content: ' ▼'; }
 
-.btn {
-  background: #1a1919;
-  border: none;
-  color: #fff;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  cursor: pointer;
+.row {
+  background: rgba(255,255,255,0.9);
+  color: #1f2340;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  animation: rowIn 0.3s ease;
+}
+.row:nth-child(even) { background: rgba(255,255,255,0.82); }
+@keyframes rowIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; } }
+.cell { word-break: break-word; font-size: 0.92rem; }
+.actions { display: flex; gap: 6px; }
+.act {
+  border: none; background: rgba(0,0,0,0.06); border-radius: 8px;
+  padding: 6px 8px; cursor: pointer; font-size: 0.9rem; transition: background 0.15s, transform 0.1s;
+}
+.act:hover { background: rgba(0,0,0,0.14); transform: scale(1.1); }
+
+.empty { padding: 30px; text-align: center; color: #1f2340; background: rgba(255,255,255,0.9); }
+
+@media (max-width: 560px) {
+  #book-form { grid-template-columns: 1fr 1fr; }
+  .btn { grid-column: span 1; }
 }

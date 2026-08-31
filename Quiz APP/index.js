@@ -1,187 +1,150 @@
-const questions = [
-  {
-    question: "Capital of France?",
-    answers: [
-      { text: "Berlin", correct: false },
-      { text: "Madrid", correct: false },
-      { text: "Paris", correct: true },
-      { text: "Rome", correct: false },
-    ],
-  },
-  {
-    question: "Which planet is the red Planet?",
-    answers: [
-      { text: "Earth", correct: false },
-      { text: "Mars", correct: true },
-      { text: "Jupiter", correct: false },
-      { text: "Venus", correct: false },
-    ],
-  },
-  {
-    question: "Which is a Python data type?",
-    answers: [
-      { text: "String", correct: false },
-      { text: "Integer", correct: false },
-      { text: "List", correct: false },
-      { text: "All of these", correct: true },
-    ],
-  },
-  {
-    question: "Keyword to create an object in Java?",
-    answers: [
-      { text: "new", correct: true },
-      { text: "create", correct: false },
-      { text: "object", correct: false },
-      { text: "make", correct: false },
-    ],
-  },
-  {
-    question: "Year World War II ended?",
-    answers: [
-      { text: "1942", correct: false },
-      { text: "1945", correct: true },
-      { text: "1948", correct: false },
-      { text: "1948", correct: false },
-    ],
-  },
-  {
-    question: "Largest ocean on Earth?",
-    answers: [
-      { text: "Atlantic", correct: false },
-      { text: "Indian", correct: false },
-      { text: "Pacific", correct: true },
-      { text: "Arctic", correct: false },
-    ],
-  },
-  {
-    question: "Currency of Japan?",
-    answers: [
-      { text: "Yen", correct: true },
-      { text: "Won", correct: false },
-      { text: "Dollar", correct: false },
-      { text: "Peso", correct: false },
-    ],
-  },
-  {
-    question: "What is the square root of 144?",
-    answers: [
-      { text: "10", correct: false },
-      { text: "11", correct: false },
-      { text: "12", correct: true },
-      { text: "14", correct: false },
-    ]
-  },
-  {
-    question: "HTTP stands for what?",
-    answers: [
-      { text: "HyperText Transfer Protocol", correct: true },
-      { text: "High Transfer Text Protocol", correct: false },
-      { text: "HyperText Translation Protocol", correct: false },
-      { text: "High Transmission Text Protocol", correct: false },
-    ]
-  },
-  {
-    question: "What does CPU stand for in computing?",
-    answers: [
-      { text: "Central Process Unit", correct: false },
-      { text: "Central Processing Unit", correct: true },
-      { text: "Computer Personal Unit", correct: false },
-      { text: "Central Programming Unit", correct: false },
-    ]
-  },
-  {
-    question: "What is the time complexity of binary search?",
-    answers: [
-      { text: "O(n)", correct: false },
-      { text: "O(log n)", correct: true },
-      { text: "O(n log n)", correct: false },
-      { text: "O(1)", correct: false },
-    ]
-  },
-  {
-    question: "How do you declare an array in Java?",
-    answers: [
-      { text: "int[] arr = new int[5];", correct: true },
-      { text: "int arr[] = new int[5];", correct: false },
-      { text: "int arr = new int[5];", correct: false },
-      { text: "int[] arr = 5;", correct: false },
-    ]
-  },
-  {
-    question: "What does DOM stand for in web development?",
-    answers: [
-      { text: "Document Object Model", correct: true },
-      { text: "Dynamic Object Model", correct: false },
-      { text: "Document Object Management", correct: false },
-      { text: "Dynamic Object Manipulation", correct: false },
-    ]
-  }
+const QUESTIONS = [
+  { q: "Capital of France?", a: ["Berlin", "Madrid", "Paris", "Rome"], c: 2 },
+  { q: "Which planet is the Red Planet?", a: ["Earth", "Mars", "Jupiter", "Venus"], c: 1 },
+  { q: "Which is a Python data type?", a: ["String", "Integer", "List", "All of these"], c: 3 },
+  { q: "Keyword to create an object in Java?", a: ["new", "create", "object", "make"], c: 0 },
+  { q: "Year World War II ended?", a: ["1942", "1945", "1948", "1939"], c: 1 },
+  { q: "Largest ocean on Earth?", a: ["Atlantic", "Indian", "Pacific", "Arctic"], c: 2 },
+  { q: "Currency of Japan?", a: ["Yen", "Won", "Dollar", "Peso"], c: 0 },
+  { q: "Square root of 144?", a: ["10", "11", "12", "14"], c: 2 },
+  { q: "HTTP stands for?", a: ["HyperText Transfer Protocol", "High Transfer Text Protocol", "HyperText Translation Protocol", "High Transmission Text Protocol"], c: 0 },
+  { q: "What does CPU stand for?", a: ["Central Process Unit", "Central Processing Unit", "Computer Personal Unit", "Central Programming Unit"], c: 1 },
+  { q: "Time complexity of binary search?", a: ["O(n)", "O(log n)", "O(n log n)", "O(1)"], c: 1 },
+  { q: "DOM stands for?", a: ["Document Object Model", "Dynamic Object Model", "Document Object Management", "Dynamic Object Manipulation"], c: 0 },
 ];
 
-let q = document.querySelector("p");
-const answerBtn = document.querySelector(".op");
-const next_btn = document.querySelector("#next-btn");
+const QUIZ_LENGTH = 5;
+const TIME_PER_Q = 15;
 
-let currentQuestionIndex = 0;
-let userScore = 0;
+const box = document.querySelector('.box');
+const stage = document.getElementById('stage');
+const questionEl = document.getElementById('question');
+const optionsEl = document.getElementById('options');
+const nextBtn = document.getElementById('next-btn');
+const counterEl = document.getElementById('counter');
+const timerEl = document.getElementById('timer');
+const progress = document.getElementById('progress');
 
-function startQuiz() {
-  currentQuestionIndex = 0;
-  userScore = 0;
+let quiz = [];
+let index = 0;
+let score = 0;
+let answered = false;
+let timeLeft = TIME_PER_Q;
+let timerId = null;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = (Math.random() * (i + 1)) | 0;
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function start() {
+  quiz = shuffle(QUESTIONS).slice(0, QUIZ_LENGTH);
+  index = 0; score = 0;
+  nextBtn.textContent = 'Next';
   showQuestion();
 }
 
 function showQuestion() {
-  resetState();
-  if (currentQuestionIndex == 5) {
-    yourScore();
-  }
+  answered = false;
+  const item = quiz[index];
 
-  const randomIndex = Math.floor(Math.random() * questions.length);
-  const question = questions[randomIndex].question;
+  stage.classList.remove('in');
+  void stage.offsetWidth;
+  stage.classList.add('in');
 
-  q.innerHTML = `${currentQuestionIndex + 1}. ${question}`;
+  counterEl.textContent = `${index + 1} / ${QUIZ_LENGTH}`;
+  progress.style.width = `${(index / QUIZ_LENGTH) * 100}%`;
+  questionEl.textContent = item.q;
 
-  for (let i = 0; i < 4; i++) {
-    answerBtn.children[i].innerHTML = questions[randomIndex].answers[i].text;
-    answerBtn.children[i].onclick = () =>
-      handleAns(i, questions[randomIndex].answers[i].correct);
-  }
-  currentQuestionIndex++;
+  optionsEl.innerHTML = '';
+  item.a.forEach((text, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.type = 'button';
+    btn.style.animationDelay = `${i * 60}ms`;
+    btn.textContent = text;
+    btn.addEventListener('click', () => choose(i, btn));
+    optionsEl.appendChild(btn);
+  });
+
+  nextBtn.disabled = true;
+  startTimer();
 }
 
-function handleAns(index, isCorrect) {
-  if (isCorrect) {
-    userScore++;
-    answerBtn.children[index].style.backgroundColor = "green";
-  } else {
-    answerBtn.children[index].style.backgroundColor = "red";
-  }
-
-  //Disabling all the buttons
-  for (let i = 0; i < 4; i++) {
-    answerBtn.children[i].disabled = true;
-  }
+function startTimer() {
+  clearInterval(timerId);
+  timeLeft = TIME_PER_Q;
+  timerEl.textContent = timeLeft;
+  timerEl.classList.remove('low');
+  timerId = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+    if (timeLeft <= 5) timerEl.classList.add('low');
+    if (timeLeft <= 0) { clearInterval(timerId); timeUp(); }
+  }, 1000);
 }
 
-function resetState() {
-  for (let i = 0; i < 4; i++) {
-    answerBtn.children[i].style.backgroundColor = "initial";
-    answerBtn.children[i].disabled = false;
-  }
+function choose(i, btn) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerId);
+
+  const correct = quiz[index].c;
+  const buttons = [...optionsEl.children];
+  if (i === correct) { btn.classList.add('correct'); score++; }
+  else { btn.classList.add('wrong'); buttons[correct].classList.add('correct'); }
+  buttons.forEach((b) => (b.disabled = true));
+  nextBtn.disabled = false;
 }
 
-next_btn.onclick = function () {
-  showQuestion();
-};
-
-function yourScore() {
-  const qna = document.querySelector(".qna");
-  qna.innerHTML = `Your score is: ${userScore}/5`;
-  next_btn.innerHTML = "Restart"
-  next_btn.onclick = function () {
-    window.location.reload();
-  }
+function timeUp() {
+  if (answered) return;
+  answered = true;
+  const buttons = [...optionsEl.children];
+  buttons[quiz[index].c].classList.add('correct');
+  buttons.forEach((b) => (b.disabled = true));
+  nextBtn.disabled = false;
 }
 
-startQuiz();
+nextBtn.addEventListener('click', () => {
+  if (index < QUIZ_LENGTH - 1) { index++; showQuestion(); }
+  else showScore();
+});
+
+function showScore() {
+  clearInterval(timerId);
+  progress.style.width = '100%';
+  const pct = Math.round((score / QUIZ_LENGTH) * 100);
+  const dash = 2 * Math.PI * 52;
+
+  const msg = pct === 100 ? 'Perfect! 🏆' : pct >= 60 ? 'Nicely done! 🎯' : 'Keep practising 💪';
+
+  stage.innerHTML = `
+    <div class="score-wrap">
+      <svg class="ring" viewBox="0 0 120 120">
+        <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+        <circle class="ring-fg" cx="60" cy="60" r="52"
+          style="stroke-dasharray:${dash};stroke-dashoffset:${dash}"></circle>
+        <text x="60" y="66" class="ring-text">${score}/${QUIZ_LENGTH}</text>
+      </svg>
+      <p class="score-msg">${msg}</p>
+    </div>`;
+
+  requestAnimationFrame(() => {
+    const fg = stage.querySelector('.ring-fg');
+    fg.style.transition = 'stroke-dashoffset 1s ease';
+    fg.style.strokeDashoffset = dash * (1 - score / QUIZ_LENGTH);
+  });
+
+  counterEl.textContent = 'Done';
+  timerEl.style.display = 'none';
+  nextBtn.textContent = 'Play again';
+  nextBtn.disabled = false;
+  nextBtn.onclick = () => location.reload();
+}
+
+start();

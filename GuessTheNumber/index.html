@@ -4,31 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Number Guessing Game</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body style="background-color:#212121; color:#fff;">
+<body>
+    <a class="back-link" href="../index.html">← Back</a>
+    <canvas id="confetti"></canvas>
 
-    <div id="wrapper">
-        <h1>Number guessing game</h1>
-        <p>Try and guess a random number between 1 and 100.</p>
-        <p>You have 10 attempts to guess the right number.</p>
-        <br>
-        <form class="form">
-            <label for="guessField" id="guess">Guess a number</label>
-            <input type="text" id="guessField" class="guessField">
-            <input type="submit" id="subt" value="Submit guess" class="guessSubmit">
+    <main id="wrapper">
+        <h1>Guess the Number</h1>
+        <p class="sub">I'm thinking of a number between <strong>1</strong> and <strong>100</strong>.</p>
+
+        <div class="thermo" aria-hidden="true">
+            <div class="thermo-fill" id="thermo"></div>
+        </div>
+        <p class="feedback" id="feedback">Take a guess…</p>
+
+        <form class="form" id="form">
+            <input type="number" id="guessField" min="1" max="100" inputmode="numeric" placeholder="1–100" autofocus />
+            <button type="submit" id="subt">Guess</button>
         </form>
 
-        <div class="resultParas">
-            <p>Previous Guesses: <span class="guesses"></span></p>
-            <p>Guesses Remaining: <span class="lastResult">10</span></p>
-            <p class="lowOrHi"></p>
+        <div class="stats">
+            <div class="stat"><span id="attempts">0</span><label>Guesses</label></div>
+            <div class="stat"><span id="remaining">10</span><label>Left</label></div>
         </div>
-    </div>
+
+        <div class="chips" id="history"></div>
+    </main>
+
     <script src="project4.js"></script>
 </body>
 

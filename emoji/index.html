@@ -1,19 +1,27 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Random Emojies</title>
+  <title>Emoji Picker</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <h4>
-    As a user hover the mouse over emoji, get a new emoji. As the user moves
-    away mouse turn it into gray-scale
-  </h4>
-  <div id="emoji">🤣</div>
+  <a class="back-link" href="../index.html">← Back</a>
+
+  <main class="picker">
+    <div class="hero">
+      <div class="big" id="big">😄</div>
+      <button class="shuffle" id="shuffle">🎲 Random</button>
+    </div>
+
+    <div class="cats" id="cats"></div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <div class="toast" id="toast">Copied!</div>
 
   <script src="project10.js"></script>
 </body>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A vibrant showcase of 18 vanilla JavaScript mini-projects — no frameworks, just pure HTML, CSS and JS." />
+  <meta name="color-scheme" content="dark light" />
+  <title>✨ Vanilla JS Mini-Projects — Showcase</title>
+  <link rel="stylesheet" href="showcase.css" />
+</head>
+<body>
+  <a class="skip-link" href="#projects">Skip to projects</a>
+
+  <header class="hero" role="banner">
+    <div class="hero__inner">
+      <p class="hero__eyebrow">18 tiny experiments · zero frameworks</p>
+      <h1 class="hero__title">
+        Vanilla <span class="grad">JavaScript</span><br />Mini-Projects
+      </h1>
+      <p class="hero__subtitle">
+        A hand-built playground of pure HTML, CSS &amp; JS. Pick a card, dive in,
+        and see how much you can do without a single dependency. 🚀
+      </p>
+
+      <div class="controls">
+        <div class="search" role="search">
+          <span class="search__icon" aria-hidden="true">🔍</span>
+          <label class="visually-hidden" for="search">Search projects</label>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search projects…"
+            autocomplete="off"
+            aria-describedby="result-count"
+          />
+        </div>
+        <p id="result-count" class="result-count" aria-live="polite"></p>
+      </div>
+
+      <div class="chips" role="group" aria-label="Filter by category">
+        <button class="chip is-active" data-filter="all" type="button" aria-pressed="true">All</button>
+        <button class="chip" data-filter="games" type="button" aria-pressed="false">Games</button>
+        <button class="chip" data-filter="tools" type="button" aria-pressed="false">Tools</button>
+        <button class="chip" data-filter="ui" type="button" aria-pressed="false">UI &amp; Effects</button>
+        <button class="chip" data-filter="api" type="button" aria-pressed="false">API / Fetch</button>
+      </div>
+    </div>
+    <div class="hero__glow" aria-hidden="true"></div>
+  </header>
+
+  <main id="projects" class="wrap">
+    <ul class="grid" id="grid" aria-label="Project list"></ul>
+    <p class="empty" id="empty" hidden>No projects match your search. Try something else! 🎈</p>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <p>Crafted with plain HTML, CSS &amp; JavaScript — no build step, no dependencies. 💛</p>
+  </footer>
+
+  <script src="showcase.js"></script>
+</body>
+</html>

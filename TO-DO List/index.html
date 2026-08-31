@@ -4,28 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>to-do list</title>
+    <title>To-Do List</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <script>0</script>
-    <div class="container">
-        <div class="box">
-            <div class="to-do-list-header">
-                <h2>To-Do List</h2>
-                <img src="images/icon.png" alt="icon">
-            </div>
+    <a class="back-link" href="../index.html">← Back</a>
 
-            <div class="input-box">
-                <input type="text" class="task" placeholder="Add your task">
-                <button class="add">ADD</button>
-            </div>
+    <div class="box">
+        <header class="head">
+            <h2>To-Do List</h2>
+            <span class="count" id="count">0 tasks</span>
+        </header>
 
-            <div class="user-tasks">
-                <ul></ul>
-            </div>
+        <form class="input-box" id="form">
+            <input type="text" class="task" id="task" placeholder="What needs doing?" autocomplete="off">
+            <button class="add" type="submit" aria-label="Add task">+</button>
+        </form>
+
+        <div class="filters" id="filters">
+            <button class="filter is-active" data-filter="all">All</button>
+            <button class="filter" data-filter="active">Active</button>
+            <button class="filter" data-filter="done">Done</button>
+            <button class="clear" id="clear-done">Clear done</button>
         </div>
+
+        <ul id="list"></ul>
+
+        <p class="empty" id="empty">Nothing here yet — add your first task! ✨</p>
     </div>
 
     <script src="index.js"></script>

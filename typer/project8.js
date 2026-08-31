@@ -1,26 +1,56 @@
-// Select the span element where the typed text will appear
-const typedTextSpan = document.querySelector('.typed-text');
+const typed = document.getElementById('typed');
+const cursor = document.getElementById('cursor');
+const speedInput = document.getElementById('speed');
+const cursorsWrap = document.getElementById('cursors');
 
-// Define the function that will handle typing and erasing
-function type() {
-    // Add an event listener for keydown events on the window object
-    window.addEventListener("keydown", (event) => {
-        // Check if the pressed key is "Backspace"
-        if (event.key === "Backspace") {
-            // Call the erase function to remove the last character
-            erase();
-        } else {
-            // Otherwise, add the pressed key character to the text content of the span
-            typedTextSpan.textContent += event.key;
-        }
-    });
+const PHRASES = ['awesome.', 'everywhere.', 'powerful.', 'fun to learn.', 'just getting started.'];
+const HOLD = 1400;
+const ERASE_FACTOR = 0.5;
+
+let phraseIndex = 0;
+let charIndex = 0;
+let deleting = false;
+let typeSpeed = Number(speedInput.value);
+let timer = null;
+
+function tick() {
+  const phrase = PHRASES[phraseIndex];
+
+  if (!deleting) {
+    charIndex++;
+    typed.textContent = phrase.slice(0, charIndex);
+    if (charIndex === phrase.length) {
+      deleting = true;
+      timer = setTimeout(tick, HOLD);
+      return;
+    }
+    timer = setTimeout(tick, typeSpeed);
+  } else {
+    charIndex--;
+    typed.textContent = phrase.slice(0, charIndex);
+    if (charIndex === 0) {
+      deleting = false;
+      phraseIndex = (phraseIndex + 1) % PHRASES.length;
+      timer = setTimeout(tick, typeSpeed);
+      return;
+    }
+    timer = setTimeout(tick, typeSpeed * ERASE_FACTOR);
+  }
 }
 
-// Call the type function to set up the event listener
-type();
+speedInput.addEventListener('input', () => {
+  // Higher slider = faster typing, so invert.
+  typeSpeed = 240 - Number(speedInput.value);
+});
 
-// Define the erase function that removes the last character from the span's text content
-function erase() {
-    // Update the span's text content by removing the last character
-    typedTextSpan.textContent = typedTextSpan.textContent.slice(0, -1);
-}
+cursorsWrap.addEventListener('click', (e) => {
+  const btn = e.target.closest('.cbtn');
+  if (!btn) return;
+  cursorsWrap.querySelectorAll('.cbtn').forEach((b) => b.classList.remove('is-active'));
+  btn.classList.add('is-active');
+  cursor.className = 'cursor ' + btn.dataset.cursor;
+});
+
+typeSpeed = 240 - Number(speedInput.value);
+cursor.classList.add('bar');
+timer = setTimeout(tick, 400);

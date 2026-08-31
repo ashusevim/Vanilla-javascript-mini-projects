@@ -1,50 +1,70 @@
-const Input = document.getElementById("input-field");
-const Output = document.getElementById('output-field');
-const button = document.querySelector('.btns-container');
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const toolbar = document.getElementById('toolbar');
+const charsEl = document.getElementById('chars');
+const wordsEl = document.getElementById('words');
+const copyBtn = document.getElementById('copy');
 
-let storeCharacters = "";
-let flag = false;
+let textCase = 'none';
+const styles = { bold: false, italic: false, underline: false, strike: false };
 
-Input.addEventListener("keydown", (event) => {
-    const key = event.key;
-    if ((key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z')) {
-        storeCharacters += key;
-        // updateOutput();
-    }
-});
-
-button.addEventListener("click", (event) => {
-    const target = event.target;
-    if (target.className.includes("btn")) {
-        clearFormatting();
-        const btnClass = target.classList[1];
-        switch (btnClass) {
-            case "uppercase":
-                Output.textContent = storeCharacters.toUpperCase();
-                break;
-            case "lowercase":
-                Output.textContent = storeCharacters.toLowerCase();
-                break;
-            case "capitalize":
-                Output.textContent = storeCharacters.charAt(0).toUpperCase() + storeCharacters.slice(1);
-                break;
-            case "bold":
-                Output.style.fontWeight = 'bold';
-                break;
-            case "italic":
-                Output.style.fontStyle = 'italic';
-                break;
-            case "underline":
-                Output.style.textDecoration = 'underline';
-                flag = true;
-                break;
-        }
-    }
-});
-
-function clearFormatting() {
-    Output.style.fontWeight = 'normal';
-    Output.style.fontStyle = 'normal';
-    Output.style.textDecoration = 'none';
-    flag = false;
+function transformCase(text) {
+  switch (textCase) {
+    case 'upper': return text.toUpperCase();
+    case 'lower': return text.toLowerCase();
+    case 'title': return text.replace(/\b\w/g, (c) => c.toUpperCase());
+    default: return text;
+  }
 }
+
+function render() {
+  const raw = input.value;
+  output.textContent = raw ? transformCase(raw) : 'Your formatted text appears here…';
+  output.classList.toggle('placeholder', !raw);
+
+  output.style.fontWeight = styles.bold ? '700' : '400';
+  output.style.fontStyle = styles.italic ? 'italic' : 'normal';
+  const deco = [];
+  if (styles.underline) deco.push('underline');
+  if (styles.strike) deco.push('line-through');
+  output.style.textDecoration = deco.join(' ') || 'none';
+
+  const chars = raw.length;
+  const words = raw.trim() ? raw.trim().split(/\s+/).length : 0;
+  charsEl.textContent = chars;
+  wordsEl.textContent = words;
+}
+
+toolbar.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tool');
+  if (!btn) return;
+
+  if (btn.dataset.case) {
+    // Case is exclusive; toggling the active one turns it off.
+    textCase = textCase === btn.dataset.case ? 'none' : btn.dataset.case;
+    toolbar.querySelectorAll('[data-case]').forEach((b) =>
+      b.classList.toggle('active', b.dataset.case === textCase));
+  }
+
+  if (btn.dataset.style) {
+    styles[btn.dataset.style] = !styles[btn.dataset.style];
+    btn.classList.toggle('active', styles[btn.dataset.style]);
+  }
+  render();
+});
+
+input.addEventListener('input', render);
+
+copyBtn.addEventListener('click', async () => {
+  if (!input.value) return;
+  try {
+    await navigator.clipboard.writeText(output.textContent);
+    copyBtn.textContent = 'Copied!';
+    copyBtn.classList.add('done');
+    setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('done'); }, 1200);
+  } catch {
+    copyBtn.textContent = 'Failed';
+  }
+});
+
+render();
